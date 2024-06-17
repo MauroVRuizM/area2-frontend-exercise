@@ -1,6 +1,7 @@
 let typingData = createTypingData();
 let keyPressStartTimes = {};
-let typingSessionActive = false;
+let isTypingSessionActive = false;
+let isMouseMovementSessionActive = false;
 
 function createTypingData() {
     return {
@@ -27,13 +28,15 @@ function createTypingData() {
         predictionLengths: [],
         predictionTimes: [],
         predictionWords: [],
-        textStructure: []
+        textStructure: [],
+        mouseMovements: []
     }
 }
 
 function resetTypingData() {
     typingData = createTypingData();
-    typingSessionActive = false;
+    isTypingSessionActive = false;
+    isMouseMovementSessionActive = false;
     console.log("Typing data reset");
 }
 
@@ -55,7 +58,7 @@ function trimArraysToMatchLength() {
 }
 
 const sendTypingData = debounce(() => {
-    if (!typingSessionActive) return;
+    if (!isTypingSessionActive) return;
 
     trimArraysToMatchLength();
     let attempts = 0;
@@ -86,8 +89,9 @@ const sendTypingData = debounce(() => {
 }, 5000);
 
 function handleKeydown(e) {
-    if (!typingSessionActive) {
-        typingSessionActive = true;
+    if (!isTypingSessionActive) {
+        isTypingSessionActive = true;
+        isMouseMovementSessionActive = true;
         typingData.startUnixTime = Date.now();
     }
 
@@ -129,7 +133,20 @@ function handleSendMessage() {
     sendTypingData();
 }
 
+function handleMouseMove(e) {
+    if(!isMouseMovementSessionActive) {return;}
+
+    const mouseMoveData = {
+        timestamp: Date.now(),
+        x: e.clientX,
+        y: e.clientY
+    };
+    typingData.mouseMovements.push(mouseMoveData);
+    console.log(`Mouse move recorded at (${e.clientX}, ${e.clientY})`);
+}
+
 document.addEventListener('keydown', handleKeydown);
 document.addEventListener('keyup', handleKeyup);
 document.addEventListener('focusout', handleFocusOut);
 window.addEventListener('sendMessage', handleSendMessage);
+document.addEventListener('mousemove', handleMouseMove);
