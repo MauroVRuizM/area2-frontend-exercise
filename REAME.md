@@ -1,0 +1,1 @@
+# Area2 AI - Frontend Exercise Code
