@@ -91,7 +91,8 @@ const sendTypingData = debounce(() => {
 function handleKeydown(e) {
     if (!isTypingSessionActive) {
         isTypingSessionActive = true;
-        // isMouseMovementSessionActive = true;
+        // TODO: Check
+        //! isMouseMovementSessionActive = true;
         typingData.startUnixTime = Date.now();
     }
 

@@ -1,11 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const iframe = document.getElementById("iframe");
-  const signUpBtn = document.getElementById("signUp");
-  const signInBtn = document.getElementById("signIn");
   const signOutBtn = document.getElementById("signOut");
 
   chrome.storage.session.get('token').then((result) => {
-    console.log("Res? ", JSON.stringify(result));
     if (result.token) {
       chrome.runtime.sendMessage({ type: 'get_last_log' }, (response) => {
         if (response && response.data) {
@@ -15,32 +12,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     } else {
-      document.getElementById('logDisplay').textContent = "No access. Please sign in.";
+      chrome.action.setPopup({popup: 'login_form.html'});
+      location.href = 'login_form.html';
     }
   });
 
-  signUpBtn.onclick = () => iframe.contentWindow.postMessage("sign_up", "*");
-  signInBtn.onclick = () => iframe.contentWindow.postMessage("sign_in", "*");
-  signOutBtn.onclick = () => iframe.contentWindow.postMessage("sign_out", "*");
+  function sendMessage(action) {
+    const message = { action };
+    iframe.contentWindow.postMessage(JSON.stringify(message), "*");
+  }
+
+  signOutBtn.onclick = () => sendMessage("sign_out");
 });
 
 function handleMessage(event) {
   const response = event.data;
   console.log("Respuesta recibida:", response);
 
-  // * Sign In - Sign Up
-  if(response.type === 'signIn') {
-    chrome.storage.session.set({ token: response.token }).then(() => {
-      console.log("Value token was set");
-      location.reload();
-    });
-  }
-
   // * Sign Out
   if(response.type === 'signOut') {
     chrome.storage.session.set({ token: null }).then(() => {
       console.log("Value token was cleared");
-      location.reload();
+      chrome.action.setPopup({popup: 'login_form.html'});
+      location.href = 'login_form.html';
     });
   }
 }

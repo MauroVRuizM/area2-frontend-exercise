@@ -53,29 +53,39 @@ const logout = async() => {
 }
 
 window.addEventListener("message", (event) => {
-    console.log(event);
+    try {
+        const message = JSON.parse(event.data);
 
-    if (event.data === "sign_up") {
-        signUp('user@test.com', '123456').then(data => {
-            event.source.postMessage({
-                type: 'signIn',
-                token: data
-            }, event.origin);
-        });
-    }
-    if (event.data === "sign_in") {
-        signIn('user@test.com', '123456').then(data => {
-            event.source.postMessage({
-                type: 'signIn',
-                token: data
-            }, event.origin);
-        });
-    }
-    if (event.data === "sign_out") {
-        logout().then(() => {
-            event.source.postMessage({
-                type: 'signOut',
-            }, event.origin);
-        });
+        if (message.action === "sign_up") {
+            const email = message.email;
+            const password = message.password;
+            signUp(email, password).then(data => {
+                event.source.postMessage({
+                    type: 'signIn',
+                    token: data
+                }, event.origin);
+            });
+        }
+
+        if (message.action === "sign_in") {
+            const email = message.email;
+            const password = message.password;
+            signIn(email, password).then(data => {
+                event.source.postMessage({
+                    type: 'signIn',
+                    token: data
+                }, event.origin);
+            });
+        }
+
+        if (message.action === "sign_out") {
+            logout().then(() => {
+                event.source.postMessage({
+                    type: 'signOut',
+                }, event.origin);
+            });
+        }
+    } catch (error) {
+        console.error("Error parsing message data:", error);
     }
 });
