@@ -13,33 +13,37 @@ console.log("Initialized Firebase!", JSON.stringify(app));
 
 
 const signIn = async (email, password) => {
+    let token;
     try {
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
         const parsed = JSON.parse(JSON.stringify(user));
-        const token = parsed.stsTokenManager.accessToken;
+        token = parsed.stsTokenManager.accessToken;
         console.log("Signed Up! ", token);
-        return token;
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(`Error: ${errorMessage} - ${errorCode}`);
+        token = 'Error: Invalid e-mail or password';
     }
+    return token;
 };
 
 const signUp = async (email, password) => {
+    let token;
     try {
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
         const parsed = JSON.parse(JSON.stringify(user));
-        const token = parsed.stsTokenManager.accessToken;
+        token = parsed.stsTokenManager.accessToken;
         console.log("Signed Up! ", token);
-        return token;
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(`Error: ${errorMessage} - ${errorCode}`);
+        token = 'Error: This e-mail is already registered';
     }
+    return token;
 }
 
 const logout = async() => {

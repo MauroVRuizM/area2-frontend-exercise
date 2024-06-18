@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         iframe.contentWindow.postMessage(JSON.stringify(message), "*");
     }
 
-    signInBtn.onclick = () => {
+    signUpBtn.onclick = () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
@@ -25,12 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        sendMessage("sign_in", email, password);
+        if(password.length < 6) {
+            document.getElementById("msgPasswordError").innerText = "Password must be at least 6 characters long";
+            return;
+        }
+
+        sendMessage("sign_up", email, password);
     }
 
-    signUpBtn.onclick = () => {
-        chrome.action.setPopup({popup: 'register_form.html'});
-        location.href = 'register_form.html';
+    signInBtn.onclick = () => {
+        chrome.action.setPopup({popup: 'login_form.html'});
+        location.href = 'login_form.html';
     }
 });
 
@@ -44,7 +49,7 @@ function handleMessage(event) {
         return;
     }
     
-    // * Sign In
+    // * Sign Up
     if(response.type === 'signIn') {
         chrome.storage.session.set({ token: response.token }).then(() => {
             console.log("Value token was set");
