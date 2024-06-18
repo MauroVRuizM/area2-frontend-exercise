@@ -36,7 +36,6 @@ function createTypingData() {
 function resetTypingData() {
     typingData = createTypingData();
     isTypingSessionActive = false;
-    isMouseMovementSessionActive = false;
     console.log("Typing data reset");
 }
 
@@ -91,8 +90,7 @@ const sendTypingData = debounce(() => {
 function handleKeydown(e) {
     if (!isTypingSessionActive) {
         isTypingSessionActive = true;
-        // TODO: Check
-        //! isMouseMovementSessionActive = true;
+        isMouseMovementSessionActive = true;
         typingData.startUnixTime = Date.now();
     }
 
@@ -111,22 +109,24 @@ function handleKeyup(e) {
     }
 
     if (e.key === 'Enter') {
-        // Explicitly capture Enter key release
+        isMouseMovementSessionActive = false; //? End mouse movement session
+        //? Explicitly capture Enter key release
         sendTypingData();
-        document.activeElement.blur(); // Unfocus the input to ensure session ends
+        document.activeElement.blur(); //? Unfocus the input to ensure session ends
     }
 }
 
 function handleFocusOut(e) {
     if (e.target.classList.contains('message_input')) {
         console.log('Focus out detected on message input');
-        sendTypingData();
     }
 
     if (!e.relatedTarget || !e.relatedTarget.closest('.message_input')) {
         console.log('Focus out detected');
-        sendTypingData();
     }
+
+    isMouseMovementSessionActive = false; //? End mouse movement session
+    sendTypingData();
 }
 
 function handleSendMessage() {
