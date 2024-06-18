@@ -2,12 +2,12 @@
 <html>
 
     <head>
-        <title>Sign Up</title>
+        <title>Sign In</title>
     </head>
 
     <body>
-        <iframe hidden id="iframe" src="sandbox.html"></iframe>
-        <h1>Sign Up</h1>
+        <iframe hidden id="iframe" src="../sandbox.html"></iframe>
+        <h1>Sign In to continue</h1>
         <!-- TODO: Add css -->
         <label for="email">Email</label>
         <input required type="email" name="email" id="email">
@@ -16,18 +16,18 @@
         <label for="password">Password</label>
         <input required type="password" name="password" id="password"> <br>
         <p id="msgPasswordError"></p>
-
+        
         <br>
-        <input type="button" value="Sign Up" id="signUp">
+        <input type="button" value="Sign In" id="signIn">
 
         <br>
         <p id="msgError"></p>
         <br>
 
-        <h3>I already have an account</h3>
-        <input type="button" value="Sign In" id="signIn">
+        <h3>Don't have an account?</h3>
+        <input type="button" value="Sign Up" id="signUp">
 
-        <script src="register_form.js"></script>
+        <script src="login_form.js"></script>
     </body>
 
 </html>

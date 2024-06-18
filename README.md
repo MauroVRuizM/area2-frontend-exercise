@@ -4,4 +4,6 @@
 
 * Content.js - Optimized
 * Sandbox addded - Load/Manage Firebase
+* Login
+* Register
 

@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     signInBtn.onclick = () => {
-        chrome.action.setPopup({popup: 'login_form.html'});
-        location.href = 'login_form.html';
+        chrome.action.setPopup({popup: '../login/login_form.html'});
+        location.href = '../login/login_form.html';
     }
 });
 
@@ -53,8 +53,8 @@ function handleMessage(event) {
     if(response.type === 'signIn') {
         chrome.storage.session.set({ token: response.token }).then(() => {
             console.log("Value token was set");
-            chrome.action.setPopup({popup: 'popup.html'});
-            location.href = 'popup.html';
+            chrome.action.setPopup({popup: '../popup/popup.html'});
+            location.href = '../popup/popup.html';
         });
     }
 }

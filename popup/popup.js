@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     } else {
-      chrome.action.setPopup({popup: 'login_form.html'});
-      location.href = 'login_form.html';
+      chrome.action.setPopup({popup: '../login/login_form.html'});
+      location.href = '../login/login_form.html';
     }
   });
 
@@ -33,8 +33,8 @@ function handleMessage(event) {
   if(response.type === 'signOut') {
     chrome.storage.session.set({ token: null }).then(() => {
       console.log("Value token was cleared");
-      chrome.action.setPopup({popup: 'login_form.html'});
-      location.href = 'login_form.html';
+      chrome.action.setPopup({popup: '../login/login_form.html'});
+      location.href = '../login/login_form.html';
     });
   }
 }
