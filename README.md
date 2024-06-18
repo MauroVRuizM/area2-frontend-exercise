@@ -3,3 +3,5 @@
 ## Changes made
 
 * Content.js - Optimized
+* Sandbox addded - Load/Manage Firebase
+

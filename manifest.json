@@ -2,7 +2,14 @@
   "manifest_version": 3,
   "name": "Typing Data Logger",
   "version": "1.0",
-  "permissions": ["storage", "activeTab", "scripting", "tabs", "declarativeContent"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs",
+    "declarativeContent",
+    "identity"
+  ],
   "background": {
     "service_worker": "background.js"
   },
@@ -18,5 +25,11 @@
   },
   "host_permissions": [
     "<all_urls>"
-  ]
+  ],
+  "sandbox": {
+    "pages": ["sandbox.html"]
+  },
+  "content_security_policy": {
+    "sandbox": "sandbox allow-scripts; script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com"
+  }
 }
