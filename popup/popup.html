@@ -3,14 +3,21 @@
 
 <head>
   <title>Mouse Movement and Typing Data Logger</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 
 <body>
   <!-- TODO: Add css -->
   <iframe hidden id="iframe" src="../sandbox.html"></iframe>
-  <h1>Mouse Movement and Typing Data Logger</h1>
-  <button id="signOut">Logout</button><br />
-  <pre id="logDisplay">Loading...</pre>
+  
+  <div class="container">
+    <h1>Mouse Movement and Typing Data Logger</h1>
+    <div class="button-container">
+        <button id="signOut" class="button">Logout</button>
+    </div>
+    <pre id="logDisplay">Loading...</pre>
+</div>
+
   <script src="popup.js"></script>
 </body>
 
