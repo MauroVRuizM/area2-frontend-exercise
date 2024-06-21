@@ -39,6 +39,10 @@ function resetTypingData() {
     console.log("Typing data reset");
 }
 
+function endMouseSession() {
+    isMouseMovementSessionActive = false;
+}
+
 function debounce(func, wait) {
     let timeout;
     return function () {
@@ -90,9 +94,10 @@ const sendTypingData = debounce(() => {
 function handleKeydown(e) {
     if (!isTypingSessionActive) {
         isTypingSessionActive = true;
-        isMouseMovementSessionActive = true;
         typingData.startUnixTime = Date.now();
     }
+
+    if(!isMouseMovementSessionActive) {isMouseMovementSessionActive = true;}
 
     if (!keyPressStartTimes[e.key]) {
         keyPressStartTimes[e.key] = Date.now();
@@ -109,7 +114,7 @@ function handleKeyup(e) {
     }
 
     if (e.key === 'Enter') {
-        isMouseMovementSessionActive = false; //? End mouse movement session
+        endMouseSession(); //? End mouse movement session
         //? Explicitly capture Enter key release
         sendTypingData();
         document.activeElement.blur(); //? Unfocus the input to ensure session ends
@@ -125,7 +130,7 @@ function handleFocusOut(e) {
         console.log('Focus out detected');
     }
 
-    isMouseMovementSessionActive = false; //? End mouse movement session
+    endMouseSession(); //? End mouse movement session
     sendTypingData();
 }
 
